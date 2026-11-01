@@ -794,6 +794,21 @@ function nextQuestion() {
     SUPABASE_URL,
     SUPABASE_KEY
   );
+
+  async function testarConexao() {
+  const { data, error } = await supabaseClient
+    .from("subjects")
+    .select("*");
+
+  if (error) {
+    console.error("Erro ao conectar:", error.message);
+    return;
+  }
+
+  console.log("Conexão funcionando!", data);
+}
+
+testarConexao();
 </script>
 
 <!-- Aqui vem o código que utiliza o Supabase -->
