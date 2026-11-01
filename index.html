@@ -532,33 +532,81 @@ function nextQuestion() {
 
 // Lista inicial local. Para carregar categorias/conteúdos automaticamente do
 // Supabase, será necessário estruturar essas relações nas tabelas.
-const areasDeEstudo = [
-  { nome: "Matemática Básica", icone: "📕", descricao: "Fundamentos numéricos e operações essenciais.", conteudos: ["Operações fundamentais", "Frações", "Números decimais", "Porcentagem", "Múltiplos e divisores"] },
-  { nome: "Álgebra", icone: "📗", descricao: "Expressões, padrões e resolução de equações.", conteudos: ["Expressões algébricas", "Produtos notáveis", "Fatoração", "Equações", "Sistemas de equações"] },
-  { nome: "Geometria", icone: "📘", descricao: "Formas, ângulos, áreas e perímetros.", conteudos: ["Figuras planas", "Ângulos", "Perímetro", "Área de figuras", "Sólidos geométricos"] },
-  { nome: "Grandezas e Medidas", icone: "📙", descricao: "Unidades e transformações de medidas.", conteudos: ["Comprimento", "Massa", "Capacidade", "Tempo", "Área e volume"] },
-  { nome: "Estatística e Probabilidade", icone: "📔", descricao: "Leitura de dados, gráficos e chances.", conteudos: ["Tabelas e gráficos", "Média, moda e mediana", "Princípio da contagem", "Probabilidade"] }
-];
+// Áreas e conteúdos são carregados diretamente do Supabase.
+const iconesPorMateria = {
+  "Matemática": "📕",
+  "Álgebra": "📗",
+  "Geometria": "📘",
+  "Raciocínio Lógico": "🧠"
+};
 
-function carregarMaterias() {
+let areasDeEstudo = [];
+
+async function carregarMaterias() {
   const lista = document.getElementById("lista-materias");
   if (!lista) return;
+
+  lista.innerHTML = "<p>Carregando áreas de estudo...</p>";
+
+  const { data: materias, error: erroMaterias } = await supabaseClient
+    .from("subjects")
+    .select("id, name, description")
+    .order("name");
+
+  if (erroMaterias) {
+    console.error("Erro ao carregar áreas:", erroMaterias.message);
+    lista.innerHTML = "<p>Não foi possível carregar as áreas. Confira a conexão com o Supabase.</p>";
+    return;
+  }
+
+  const { data: conteudos, error: erroConteudos } = await supabaseClient
+    .from("study_contents")
+    .select("id, subject_id, name, description, display_order")
+    .order("display_order");
+
+  if (erroConteudos) {
+    console.error("Erro ao carregar conteúdos:", erroConteudos.message);
+    lista.innerHTML = "<p>Não foi possível carregar os conteúdos. Confira a tabela study_contents e suas permissões.</p>";
+    return;
+  }
+
+  areasDeEstudo = (materias || []).map(materia => ({
+    id: materia.id,
+    nome: materia.name,
+    icone: iconesPorMateria[materia.name] || "📚",
+    descricao: materia.description || "Escolha um conteúdo para estudar.",
+    conteudos: (conteudos || [])
+      .filter(conteudo => String(conteudo.subject_id) === String(materia.id))
+      .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
+  }));
+
   lista.innerHTML = "";
+
+  if (areasDeEstudo.length === 0) {
+    lista.innerHTML = "<p>Nenhuma área de estudo foi encontrada na tabela subjects.</p>";
+    return;
+  }
+
   areasDeEstudo.forEach(area => {
     const card = document.createElement("article");
     card.className = "materia-card";
+
     const icone = document.createElement("div");
     icone.className = "materia-icone";
     icone.textContent = area.icone;
+
     const titulo = document.createElement("h3");
     titulo.textContent = area.nome;
+
     const descricao = document.createElement("p");
     descricao.textContent = area.descricao;
+
     const botao = document.createElement("button");
     botao.className = "primary";
     botao.type = "button";
     botao.textContent = "Ver conteúdos";
     botao.addEventListener("click", () => abrirRamificacao(area));
+
     card.append(icone, titulo, descricao, botao);
     lista.appendChild(card);
   });
@@ -566,28 +614,43 @@ function carregarMaterias() {
 
 function abrirRamificacao(area) {
   document.getElementById("titulo-ramificacao").textContent = area.nome;
-  document.getElementById("descricao-ramificacao").textContent = "Selecione um conteúdo para continuar estudando.";
+  document.getElementById("descricao-ramificacao").textContent =
+    "Selecione um conteúdo para continuar estudando.";
+
   const conteudos = document.getElementById("lista-conteudos");
   conteudos.innerHTML = "";
-  area.conteudos.forEach(nome => {
-    const item = document.createElement("div");
-    item.className = "conteudo-item";
-    const titulo = document.createElement("h3");
-    titulo.textContent = nome;
-    const botao = document.createElement("button");
-    botao.className = "primary";
-    botao.type = "button";
-    botao.textContent = "Praticar";
-    botao.addEventListener("click", () => {
-      if (["Frações", "Porcentagem", "Equações"].includes(nome)) {
-        startTopic(nome);
-      } else {
-        alert("As questões deste conteúdo ainda não foram disponibilizadas. Em breve, você poderá praticar por aqui.");
-      }
+
+  if (!area.conteudos.length) {
+    conteudos.innerHTML =
+      "<p>Os conteúdos desta área ainda não foram cadastrados.</p>";
+  } else {
+    area.conteudos.forEach(conteudo => {
+      const item = document.createElement("div");
+      item.className = "conteudo-item";
+
+      const titulo = document.createElement("h3");
+      titulo.textContent = conteudo.name;
+
+      const descricao = document.createElement("p");
+      descricao.textContent = conteudo.description || "";
+
+      const botao = document.createElement("button");
+      botao.className = "primary";
+      botao.type = "button";
+      botao.textContent = "Praticar";
+      botao.addEventListener("click", () => {
+        if (["Frações", "Porcentagem", "Equações"].includes(conteudo.name)) {
+          startTopic(conteudo.name);
+        } else {
+          alert("As questões deste conteúdo ainda não foram disponibilizadas. Em breve, você poderá praticar por aqui.");
+        }
+      });
+
+      item.append(titulo, descricao, botao);
+      conteudos.appendChild(item);
     });
-    item.append(titulo, botao);
-    conteudos.appendChild(item);
-  });
+  }
+
   const painel = document.getElementById("ramificacao-materia");
   painel.classList.remove("hidden");
   painel.scrollIntoView({ behavior: "smooth", block: "start" });
