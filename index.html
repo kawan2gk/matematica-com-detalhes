@@ -1,0 +1,786 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matemática com Detalhes | Prof. Gabriel Kawan</title>
+
+<style>
+:root {
+  --navy: #12213d;
+  --blue: #2563eb;
+  --gold: #f5c542;
+  --bg: #f5f7fb;
+  --white: #fff;
+  --text: #172033;
+  --muted: #667085;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  background: linear-gradient(120deg, #12213d, #234d8e);
+  color: white;
+  padding: 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--gold);
+  color: var(--navy);
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 23px;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 13px;
+  margin-top: 5px;
+  color: #d8e5ff;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+nav button {
+  padding: 10px 14px;
+  border: 1px solid #ffffff40;
+  border-radius: 20px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+nav button.active {
+  background: white;
+  color: var(--navy);
+}
+
+main {
+  max-width: 1100px;
+  margin: 25px auto;
+  padding: 0 18px;
+}
+
+.hero {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 20px;
+}
+
+.hero h2 {
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.hero p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.hero-art {
+  background: #eaf2ff;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 65px;
+}
+
+.section-head {
+  margin: 28px 0 15px;
+}
+
+.section-head h2 {
+  margin: 0;
+}
+
+.section-head p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 4px 15px #15284a08;
+}
+
+.card .symbol {
+  font-size: 28px;
+}
+
+.card h3 {
+  margin: 10px 0;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+button.primary {
+  background: var(--blue);
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.panel {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.notice {
+  background: #fffdf4;
+  border-left: 4px solid var(--gold);
+  border-radius: 12px;
+  padding: 15px;
+  margin: 12px 0;
+}
+
+.notice h3 {
+  margin: 7px 0;
+}
+
+.notice p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.question {
+  font-size: 21px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.choices {
+  display: grid;
+  gap: 10px;
+}
+
+.choice {
+  background: white;
+  border: 1px solid #e5eaf2;
+  border-radius: 12px;
+  padding: 13px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.choice:hover {
+  border-color: var(--blue);
+  background: #eaf2ff;
+}
+
+.choice:disabled {
+  cursor: default;
+}
+
+.feedback {
+  margin-top: 15px;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.stat {
+  background: #f7f9fc;
+  border-radius: 13px;
+  padding: 15px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 25px;
+  color: var(--blue);
+  margin-top: 5px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media(max-width:720px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h2 {
+    font-size: 27px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="brand">
+    <div class="logo">π</div>
+
+    <div>
+      <h1>Matemática com Detalhes</h1>
+      <div class="subtitle">
+        Prof. Gabriel Kawan
+      </div>
+    </div>
+  </div>
+
+  <nav>
+    <button class="active" data-view="inicio">
+      Início
+    </button>
+
+    <button data-view="questoes">
+      Praticar
+    </button>
+
+    <button data-view="mural">
+      Mural de avisos
+    </button>
+
+    <button data-view="progresso">
+      Meu estudo
+    </button>
+
+    <button data-view="admin">
+      Professor
+    </button>
+  </nav>
+
+</header>
+
+<main>
+
+<section id="inicio" class="view">
+
+  <div class="hero">
+
+    <div>
+      <h2>
+        Matemática se aprende praticando!
+      </h2>
+
+      <p>
+        Escolha um assunto, resolva questões
+        e acompanhe sua evolução.
+        Estude no seu próprio ritmo.
+      </p>
+
+      <button class="primary"
+        onclick="showView('questoes')">
+        Começar a estudar
+      </button>
+    </div>
+
+    <div class="hero-art">
+      📐 ➗
+    </div>
+
+  </div>
+
+  <div class="section-head">
+    <h2>Escolha um assunto</h2>
+    <p>Comece por um tema que deseja revisar.</p>
+  </div>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="symbol">🍰</div>
+      <h3>Frações</h3>
+      <p>Representação e operações com frações.</p>
+
+      <button class="primary"
+        onclick="startTopic('Frações')">
+        Praticar
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="symbol">％</div>
+      <h3>Porcentagem</h3>
+      <p>Descontos, acréscimos e aplicações.</p>
+
+      <button class="primary"
+        onclick="startTopic('Porcentagem')">
+        Praticar
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="symbol">✖️</div>
+      <h3>Equações</h3>
+      <p>Resolva equações e descubra incógnitas.</p>
+
+      <button class="primary"
+        onclick="startTopic('Equações')">
+        Praticar
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+<section id="questoes" class="view hidden">
+
+  <div class="section-head">
+    <h2>Praticar questões</h2>
+    <p>
+      O tempo é registrado, mas não existe limite
+      para responder.
+    </p>
+  </div>
+
+  <div class="panel">
+
+    <label>Assunto:</label>
+
+    <select id="topic">
+      <option>Frações</option>
+      <option>Porcentagem</option>
+      <option>Equações</option>
+    </select>
+
+    <p class="muted">
+      Tempo de estudo:
+      <strong id="timer">00:00</strong>
+    </p>
+
+    <div id="questionText" class="question"></div>
+
+    <div id="choices" class="choices"></div>
+
+    <div id="feedback" class="feedback"></div>
+
+    <button class="primary"
+      id="nextBtn"
+      onclick="nextQuestion()"
+      disabled>
+      Próxima questão
+    </button>
+
+  </div>
+
+</section>
+
+<section id="mural" class="view hidden">
+
+  <div class="section-head">
+    <h2>Mural de avisos</h2>
+    <p>
+      Comunicados, datas comemorativas
+      e dicas de estudo.
+    </p>
+  </div>
+
+  <div class="notice">
+    <small>DICA DE ESTUDO</small>
+
+    <h3>Estude um pouco todos os dias!</h3>
+
+    <p>
+      Faça pequenas sessões de prática.
+      Quando errar uma questão, revise o raciocínio
+      e tente novamente.
+    </p>
+  </div>
+
+  <div class="notice">
+    <small>DATA COMEMORATIVA</small>
+
+    <h3>Dia Internacional da Matemática</h3>
+
+    <p>
+      14 de março é uma oportunidade para
+      celebrar a Matemática com curiosidades
+      e desafios.
+    </p>
+  </div>
+
+  <div class="notice">
+    <small>AVISO</small>
+
+    <h3>Bem-vindos à plataforma!</h3>
+
+    <p>
+      Este mural será atualizado pelo professor
+      com novidades e orientações para os estudos.
+    </p>
+  </div>
+
+</section>
+
+<section id="progresso" class="view hidden">
+
+  <div class="section-head">
+    <h2>Meu estudo</h2>
+    <p>Resumo do seu desempenho.</p>
+  </div>
+
+  <div class="panel">
+
+    <div class="stats">
+
+      <div class="stat">
+        <span class="muted">Tempo estudado</span>
+        <strong id="totalTime">00:00</strong>
+      </div>
+
+      <div class="stat">
+        <span class="muted">Questões respondidas</span>
+        <strong id="answered">0</strong>
+      </div>
+
+      <div class="stat">
+        <span class="muted">Acertos</span>
+        <strong id="correct">0</strong>
+      </div>
+
+    </div>
+
+    <p class="muted">
+      Os dados desta primeira versão são temporários.
+      A sincronização com o professor será adicionada
+      na próxima etapa.
+    </p>
+
+  </div>
+
+</section>
+
+<section id="admin" class="view hidden">
+
+  <div class="section-head">
+    <h2>Área do professor</h2>
+    <p>Painel administrativo em construção.</p>
+  </div>
+
+  <div class="panel">
+
+    <div class="notice">
+
+      <h3>Área administrativa</h3>
+
+      <p>
+        Na próxima etapa, esta área receberá
+        cadastro de questões, gerenciamento
+        de avisos e relatórios dos alunos.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  Matemática com Detalhes · Prof. Gabriel Kawan
+  <br>
+  Versão inicial de demonstração.
+</footer>
+
+<script>
+
+const bank = {
+
+  "Frações": [
+
+    {
+      q: "Quanto é 1/2 + 1/4?",
+
+      a: ["2/6", "3/4", "1/6", "2/4"],
+
+      correct: 1,
+
+      ex: "1/2 equivale a 2/4. Então 2/4 + 1/4 = 3/4."
+    },
+
+    {
+      q: "Qual fração é equivalente a 2/3?",
+
+      a: ["3/5", "4/6", "2/5", "5/6"],
+
+      correct: 1,
+
+      ex: "Multiplicando numerador e denominador por 2, obtemos 4/6."
+    }
+
+  ],
+
+  "Porcentagem": [
+
+    {
+      q: "Quanto é 25% de 80?",
+
+      a: ["10", "15", "20", "25"],
+
+      correct: 2,
+
+      ex: "25% é um quarto. Um quarto de 80 é 20."
+    }
+
+  ],
+
+  "Equações": [
+
+    {
+      q: "Se x + 7 = 12, qual é o valor de x?",
+
+      a: ["5", "7", "12", "19"],
+
+      correct: 0,
+
+      ex: "Subtraindo 7 dos dois lados: x = 12 − 7 = 5."
+    }
+
+  ]
+
+};
+
+let index = 0;
+let answered = 0;
+let correct = 0;
+let seconds = 0;
+let interval = null;
+let activeTopic = "Frações";
+let hasAnswered = false;
+
+function formatTime(s) {
+
+  return String(Math.floor(s / 60)).padStart(2, "0")
+    + ":"
+    + String(s % 60).padStart(2, "0");
+
+}
+
+function showView(id) {
+
+  document.querySelectorAll(".view")
+    .forEach(v => {
+      v.classList.toggle("hidden", v.id !== id);
+    });
+
+  document.querySelectorAll("nav button")
+    .forEach(b => {
+      b.classList.toggle("active", b.dataset.view === id);
+    });
+
+  if (id === "questoes") {
+    startTimer();
+    renderQuestion();
+  }
+
+}
+
+document.querySelectorAll("nav button")
+  .forEach(b => {
+    b.addEventListener("click", () => {
+      showView(b.dataset.view);
+    });
+  });
+
+function startTimer() {
+
+  if (!interval) {
+
+    interval = setInterval(() => {
+
+      seconds++;
+
+      document.getElementById("timer")
+        .textContent = formatTime(seconds);
+
+      document.getElementById("totalTime")
+        .textContent = formatTime(seconds);
+
+    }, 1000);
+
+  }
+
+}
+
+function startTopic(topic) {
+
+  activeTopic = topic;
+
+  document.getElementById("topic").value = topic;
+
+  index = 0;
+
+  showView("questoes");
+
+}
+
+document.getElementById("topic")
+  .addEventListener("change", e => {
+
+    activeTopic = e.target.value;
+
+    index = 0;
+
+    renderQuestion();
+
+  });
+
+function renderQuestion() {
+
+  const list = bank[activeTopic] || bank["Frações"];
+
+  const q = list[index % list.length];
+
+  hasAnswered = false;
+
+  document.getElementById("questionText")
+    .textContent = q.q;
+
+  document.getElementById("feedback")
+    .textContent = "";
+
+  document.getElementById("nextBtn")
+    .disabled = true;
+
+  const area = document.getElementById("choices");
+
+  area.innerHTML = "";
+
+  q.a.forEach((value, i) => {
+
+    const button = document.createElement("button");
+
+    button.className = "choice";
+
+    button.textContent =
+      String.fromCharCode(65 + i) + ") " + value;
+
+    button.onclick = () => answer(i, q);
+
+    area.appendChild(button);
+
+  });
+
+}
+
+function answer(i, q) {
+
+  if (hasAnswered) return;
+
+  hasAnswered = true;
+
+  answered++;
+
+  const isCorrect = i === q.correct;
+
+  if (isCorrect) {
+    correct++;
+  }
+
+  document.getElementById("answered")
+    .textContent = answered;
+
+  document.getElementById("correct")
+    .textContent = correct;
+
+  document.getElementById("feedback")
+    .textContent =
+      (isCorrect
+        ? "Resposta correta! "
+        : "Resposta incorreta. ")
+      + q.ex;
+
+  document.getElementById("nextBtn")
+    .disabled = false;
+
+  document.querySelectorAll(".choice")
+    .forEach(button => {
+      button.disabled = true;
+    });
+
+}
+
+function nextQuestion() {
+
+  index++;
+
+  renderQuestion();
+
+}
+
+</script>
+
+</body>
+</html>
