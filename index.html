@@ -808,10 +808,55 @@ function nextQuestion() {
   console.log("Conexão funcionando!", data);
 }
 
-testarConexao();
+async function carregarMaterias() {
+  const lista = document.getElementById("lista-materias");
+
+  lista.textContent = "Carregando matérias...";
+
+  const { data, error } = await supabaseClient
+    .from("subjects")
+    .select("id, name, description")
+    .order("name");
+
+  if (error) {
+    console.error("Erro ao carregar matérias:", error.message);
+    lista.textContent = "Não foi possível carregar as matérias.";
+    return;
+  }
+
+  lista.innerHTML = "";
+
+  if (data.length === 0) {
+    lista.textContent = "Nenhuma matéria cadastrada.";
+    return;
+  }
+
+  data.forEach((materia) => {
+    const card = document.createElement("div");
+
+    const titulo = document.createElement("h3");
+    titulo.textContent = materia.name;
+
+    const descricao = document.createElement("p");
+    descricao.textContent = materia.description || "";
+
+    card.appendChild(titulo);
+    card.appendChild(descricao);
+
+    lista.appendChild(card);
+  });
+}
+
+carregarMaterias();;
 </script>
 
 <!-- Aqui vem o código que utiliza o Supabase -->
+<section id="materias-supabase">
+  <h2>Matérias disponíveis</h2>
+  <div id="lista-materias">
+    Carregando matérias...
+  </div>
+</section>
 
 </body>
 </html>
