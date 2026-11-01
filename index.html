@@ -7,6 +7,59 @@
 <title>Matemática com Detalhes | Prof. Gabriel Kawan</title>
 
 <style>
+
+.materias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.materia-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.materia-icone {
+  font-size: 35px;
+  margin-bottom: 12px;
+}
+
+.materia-card h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #263238;
+}
+
+.materia-card p {
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.btn-praticar {
+  background: #3478d4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.btn-praticar:hover {
+  background: #245fae;
+}
+
 :root {
   --navy: #12213d;
   --blue: #2563eb;
@@ -826,13 +879,18 @@ async function carregarMaterias() {
 
   lista.innerHTML = "";
 
-  if (data.length === 0) {
+  if (!data || data.length === 0) {
     lista.textContent = "Nenhuma matéria cadastrada.";
     return;
   }
 
   data.forEach((materia) => {
     const card = document.createElement("div");
+    card.className = "materia-card";
+
+    const icone = document.createElement("div");
+    icone.className = "materia-icone";
+    icone.textContent = "📘";
 
     const titulo = document.createElement("h3");
     titulo.textContent = materia.name;
@@ -840,8 +898,18 @@ async function carregarMaterias() {
     const descricao = document.createElement("p");
     descricao.textContent = materia.description || "";
 
+    const botao = document.createElement("button");
+    botao.className = "btn-praticar";
+    botao.textContent = "Praticar";
+
+    botao.addEventListener("click", () => {
+      abrirMateria(materia.id, materia.name);
+    });
+
+    card.appendChild(icone);
     card.appendChild(titulo);
     card.appendChild(descricao);
+    card.appendChild(botao);
 
     lista.appendChild(card);
   });
@@ -853,7 +921,8 @@ document.addEventListener("DOMContentLoaded", carregarMaterias);
 <!-- Aqui vem o código que utiliza o Supabase -->
 <section id="materias-supabase">
   <h2>Matérias disponíveis</h2>
-  <div id="lista-materias">
+ 
+  <div id="lista-materias" class="materias-supabase">
     Carregando matérias...
   </div>
 </section>
