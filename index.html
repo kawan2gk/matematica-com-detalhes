@@ -332,6 +332,29 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+.materias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+.materia-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
+  padding: 22px; box-shadow: 0 3px 10px rgba(0,0,0,.06);
+  display: flex; flex-direction: column; align-items: flex-start;
+}
+.materia-icone { font-size: 36px; margin-bottom: 10px; }
+.materia-card h3 { margin: 0 0 8px; font-size: 19px; }
+.materia-card p { color: var(--muted); line-height: 1.5; font-size: 14px; }
+.materia-card .primary { margin-top: auto; }
+.conteudos-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px; margin-top: 18px;
+}
+.conteudo-item { background: #f7f9fc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; }
+.conteudo-item h3 { margin: 0 0 8px; font-size: 16px; }
+
 </style>
 </head>
 
@@ -404,48 +427,18 @@ footer {
   </div>
 
   <div class="section-head">
-    <h2>Escolha um assunto</h2>
-    <p>Comece por um tema que deseja revisar.</p>
+    <h2>Estudos Disponíveis</h2>
+    <p>Escolha uma área para visualizar os conteúdos.</p>
   </div>
 
-  <div class="cards">
+  <div id="lista-materias" class="materias-grid"></div>
 
-    <div class="card">
-      <div class="symbol">🍰</div>
-      <h3>Frações</h3>
-      <p>Representação e operações com frações.</p>
-
-      <button class="primary"
-        onclick="startTopic('Frações')">
-        Praticar
-      </button>
-    </div>
-
-    <div class="card">
-      <div class="symbol">％</div>
-      <h3>Porcentagem</h3>
-      <p>Descontos, acréscimos e aplicações.</p>
-
-      <button class="primary"
-        onclick="startTopic('Porcentagem')">
-        Praticar
-      </button>
-    </div>
-
-    <div class="card">
-      <div class="symbol">✖️</div>
-      <h3>Equações</h3>
-      <p>Resolva equações e descubra incógnitas.</p>
-
-      <button class="primary"
-        onclick="startTopic('Equações')">
-        Praticar
-      </button>
-    </div>
-
-  </div>
-
-</section>
+  <section id="ramificacao-materia" class="panel hidden">
+    <button class="primary" type="button" onclick="voltarMaterias()">← Voltar às áreas</button>
+    <h2 id="titulo-ramificacao"></h2>
+    <p id="descricao-ramificacao" class="muted"></p>
+    <div id="lista-conteudos" class="conteudos-grid"></div>
+  </section></section>
 
 <section id="questoes" class="view hidden">
 
@@ -861,72 +854,73 @@ function nextQuestion() {
   console.log("Conexão funcionando!", data);
 }
 
-async function carregarMaterias() {
+const areasDeEstudo = [
+  { nome: "Matemática Básica", icone: "📕", descricao: "Fundamentos numéricos e operações essenciais.", conteudos: ["Operações fundamentais", "Frações", "Números decimais", "Porcentagem", "Múltiplos e divisores"] },
+  { nome: "Álgebra", icone: "📗", descricao: "Expressões, padrões e resolução de equações.", conteudos: ["Expressões algébricas", "Produtos notáveis", "Fatoração", "Equações", "Sistemas de equações"] },
+  { nome: "Geometria", icone: "📘", descricao: "Formas, ângulos, áreas e perímetros.", conteudos: ["Figuras planas", "Ângulos", "Perímetro", "Área de figuras", "Sólidos geométricos"] },
+  { nome: "Grandezas e Medidas", icone: "📙", descricao: "Unidades e transformações de medidas.", conteudos: ["Comprimento", "Massa", "Capacidade", "Tempo", "Área e volume"] },
+  { nome: "Estatística e Probabilidade", icone: "📔", descricao: "Leitura de dados, gráficos e chances.", conteudos: ["Tabelas e gráficos", "Média, moda e mediana", "Princípio da contagem", "Probabilidade"] }
+];
+
+function carregarMaterias() {
   const lista = document.getElementById("lista-materias");
-
-  lista.textContent = "Carregando matérias...";
-
-  const { data, error } = await supabaseClient
-    .from("subjects")
-    .select("id, name, description")
-    .order("name");
-
-  if (error) {
-    console.error("Erro ao carregar matérias:", error.message);
-    lista.textContent = "Não foi possível carregar as matérias.";
-    return;
-  }
-
+  if (!lista) return;
   lista.innerHTML = "";
-
-  if (!data || data.length === 0) {
-    lista.textContent = "Nenhuma matéria cadastrada.";
-    return;
-  }
-
-  data.forEach((materia) => {
-    const card = document.createElement("div");
+  areasDeEstudo.forEach(area => {
+    const card = document.createElement("article");
     card.className = "materia-card";
-
     const icone = document.createElement("div");
     icone.className = "materia-icone";
-    icone.textContent = "📘";
-
+    icone.textContent = area.icone;
     const titulo = document.createElement("h3");
-    titulo.textContent = materia.name;
-
+    titulo.textContent = area.nome;
     const descricao = document.createElement("p");
-    descricao.textContent = materia.description || "";
-
+    descricao.textContent = area.descricao;
     const botao = document.createElement("button");
-    botao.className = "btn-praticar";
-    botao.textContent = "Praticar";
-
-    botao.addEventListener("click", () => {
-      abrirMateria(materia.id, materia.name);
-    });
-
-    card.appendChild(icone);
-    card.appendChild(titulo);
-    card.appendChild(descricao);
-    card.appendChild(botao);
-
+    botao.className = "primary";
+    botao.type = "button";
+    botao.textContent = "Ver conteúdos";
+    botao.addEventListener("click", () => abrirRamificacao(area));
+    card.append(icone, titulo, descricao, botao);
     lista.appendChild(card);
   });
 }
 
+function abrirRamificacao(area) {
+  document.getElementById("titulo-ramificacao").textContent = area.nome;
+  document.getElementById("descricao-ramificacao").textContent = "Selecione um conteúdo para continuar estudando.";
+  const conteudos = document.getElementById("lista-conteudos");
+  conteudos.innerHTML = "";
+  area.conteudos.forEach(nome => {
+    const item = document.createElement("div");
+    item.className = "conteudo-item";
+    const titulo = document.createElement("h3");
+    titulo.textContent = nome;
+    const botao = document.createElement("button");
+    botao.className = "primary";
+    botao.type = "button";
+    botao.textContent = "Selecionar";
+    botao.addEventListener("click", () => {
+      if (["Frações", "Porcentagem", "Equações"].includes(nome)) {
+        startTopic(nome);
+      } else {
+        alert("Este conteúdo está listado. As questões específicas serão cadastradas na próxima etapa.");
+      }
+    });
+    item.append(titulo, botao);
+    conteudos.appendChild(item);
+  });
+  const painel = document.getElementById("ramificacao-materia");
+  painel.classList.remove("hidden");
+  painel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function voltarMaterias() {
+  document.getElementById("ramificacao-materia").classList.add("hidden");
+}
+
 document.addEventListener("DOMContentLoaded", carregarMaterias);
 </script>
-
-<!-- Aqui vem o código que utiliza o Supabase -->
-<section id="materias-supabase">
-  <h2>Matérias disponíveis</h2>
- 
-  <div id="lista-materias" class="materias-supabase">
-    Carregando matérias...
-  </div>
-</section>
-
 </body>
 </html>
 
