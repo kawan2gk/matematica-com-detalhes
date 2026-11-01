@@ -782,5 +782,24 @@ function nextQuestion() {
 
 </script>
 
+<!-- Biblioteca do Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Configuração do Supabase -->
+<script>
+  const SUPABASE_URL = "https://uwbjpwquzpokcrnfjjot.supabase.co/rest/v1/";
+  const SUPABASE_KEY = "sb_publishable_XhAcs-EQLCfdKcheQAvZ6g_P_JoFogV";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+</script>
+
+<!-- Aqui vem o código que utiliza o Supabase -->
+
+</body>
+</html>
+
 </body>
 </html>
