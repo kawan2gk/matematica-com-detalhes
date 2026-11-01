@@ -11,6 +11,331 @@
 .materias-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.materia-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.materia-icone {
+  font-size: 35px;
+  margin-bottom: 12px;
+}
+
+.materia-card h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #263238;
+}
+
+.materia-card p {
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.btn-praticar {
+  background: #3478d4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.btn-praticar:hover {
+  background: #245fae;
+}
+
+:root {
+  --navy: #12213d;
+  --blue: #2563eb;
+  --gold: #f5c542;
+  --bg: #f5f7fb;
+  --white: #fff;
+  --text: #172033;
+  --muted: #667085;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  background: linear-gradient(120deg, #12213d, #234d8e);
+  color: white;
+  padding: 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--gold);
+  color: var(--navy);
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 23px;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 13px;
+  margin-top: 5px;
+  color: #d8e5ff;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+nav button {
+  padding: 10px 14px;
+  border: 1px solid #ffffff40;
+  border-radius: 20px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+nav button.active {
+  background: white;
+  color: var(--navy);
+}
+
+main {
+  max-width: 1100px;
+  margin: 25px auto;
+  padding: 0 18px;
+}
+
+.hero {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 20px;
+}
+
+.hero h2 {
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.hero p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.hero-art {
+  background: #eaf2ff;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 65px;
+}
+
+.section-head {
+  margin: 28px 0 15px;
+}
+
+.section-head h2 {
+  margin: 0;
+}
+
+.section-head p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 4px 15px #15284a08;
+}
+
+.card .symbol {
+  font-size: 28px;
+}
+
+.card h3 {
+  margin: 10px 0;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+button.primary {
+  background: var(--blue);
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.panel {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.notice {
+  background: #fffdf4;
+  border-left: 4px solid var(--gold);
+  border-radius: 12px;
+  padding: 15px;
+  margin: 12px 0;
+}
+
+.notice h3 {
+  margin: 7px 0;
+}
+
+.notice p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.question {
+  font-size: 21px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.choices {
+  display: grid;
+  gap: 10px;
+}
+
+.choice {
+  background: white;
+  border: 1px solid #e5eaf2;
+  border-radius: 12px;
+  padding: 13px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.choice:hover {
+  border-color: var(--blue);
+  background: #eaf2ff;
+}
+
+.choice:disabled {
+  cursor: default;
+}
+
+.feedback {
+  margin-top: 15px;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.stat {
+  background: #f7f9fc;
+  border-radius: 13px;
+  padding: 15px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 25px;
+  color: var(--blue);
+  margin-top: 5px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media(max-width:720px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h2 {
+    font-size: 27px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+.materias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 18px;
   margin-top: 18px;
 }
@@ -517,22 +842,19 @@ function nextQuestion() {
   );
 
   async function testarConexao() {
-    const { data, error } = await supabaseClient
-      .from("subjects")
-      .select("*");
+  const { data, error } = await supabaseClient
+    .from("subjects")
+    .select("*");
 
-    if (error) {
-      console.error("Erro ao consultar subjects:", error.message);
-      return;
-    }
-
-    console.log("Consulta ao Supabase concluída. Matérias encontradas:", data);
-    return data;
+  if (error) {
+    console.error("Erro ao conectar:", error.message);
+    return;
   }
 
-// Lista inicial local. Para carregar categorias/conteúdos automaticamente do
-// Supabase, será necessário estruturar essas relações nas tabelas.
-// Áreas e conteúdos são carregados diretamente do Supabase.
+  console.log("Conexão funcionando!", data);
+}
+
+// Áreas e conteúdos carregados do Supabase
 const iconesPorMateria = {
   "Matemática": "📕",
   "Álgebra": "📗",
@@ -555,7 +877,7 @@ async function carregarMaterias() {
 
   if (erroMaterias) {
     console.error("Erro ao carregar áreas:", erroMaterias.message);
-    lista.innerHTML = "<p>Não foi possível carregar as áreas. Confira a conexão com o Supabase.</p>";
+    lista.innerHTML = "<p>Não foi possível carregar as áreas de estudo.</p>";
     return;
   }
 
@@ -566,7 +888,7 @@ async function carregarMaterias() {
 
   if (erroConteudos) {
     console.error("Erro ao carregar conteúdos:", erroConteudos.message);
-    lista.innerHTML = "<p>Não foi possível carregar os conteúdos. Confira a tabela study_contents e suas permissões.</p>";
+    lista.innerHTML = "<p>Não foi possível carregar os conteúdos.</p>";
     return;
   }
 
@@ -576,17 +898,11 @@ async function carregarMaterias() {
     icone: iconesPorMateria[materia.name] || "📚",
     descricao: materia.description || "Escolha um conteúdo para estudar.",
     conteudos: (conteudos || [])
-      .filter(conteudo => String(conteudo.subject_id) === String(materia.id))
+      .filter(c => String(c.subject_id) === String(materia.id))
       .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
   }));
 
   lista.innerHTML = "";
-
-  if (areasDeEstudo.length === 0) {
-    lista.innerHTML = "<p>Nenhuma área de estudo foi encontrada na tabela subjects.</p>";
-    return;
-  }
-
   areasDeEstudo.forEach(area => {
     const card = document.createElement("article");
     card.className = "materia-card";
@@ -621,8 +937,7 @@ function abrirRamificacao(area) {
   conteudos.innerHTML = "";
 
   if (!area.conteudos.length) {
-    conteudos.innerHTML =
-      "<p>Os conteúdos desta área ainda não foram cadastrados.</p>";
+    conteudos.innerHTML = "<p>Os conteúdos desta área ainda não foram cadastrados.</p>";
   } else {
     area.conteudos.forEach(conteudo => {
       const item = document.createElement("div");
@@ -664,4 +979,5 @@ document.addEventListener("DOMContentLoaded", carregarMaterias);
 </script>
 </body>
 </html>
+
 
